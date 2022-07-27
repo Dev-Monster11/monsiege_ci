@@ -168,7 +168,7 @@ class Curl {
       break;
       default: return false;
     }
-
+	$this->set_option(CURLOPT_HEADER, ['Content-Type:application/json', 'authtoken:'.$this->token]);
     // insert params
     switch ($this->method) {
       case 'get':
@@ -181,9 +181,10 @@ class Curl {
       case 'delete':
         $this->set_option(CURLOPT_POSTFIELDS, $send_params);
 
-        if ($this->content_type == 'json') {
-          $this->set_option(CURLOPT_HEADER, ['Content-Type:application/json', 'authtoken:'.$this->token]);
-        }
+        // if ($this->content_type == 'json') {
+        //   $this->set_option(CURLOPT_HEADER, ['Content-Type:application/json', 'authtoken:'.$this->token]);
+        // }
+		echo $url;
       break;
       default: return false;
     }
