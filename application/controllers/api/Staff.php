@@ -65,7 +65,6 @@ class Staff extends REST_Controller {
     
                 }
                 $response = json_decode($response);
-                if ()
             }
             curl_close($ch);
             array_push($result, $response);
