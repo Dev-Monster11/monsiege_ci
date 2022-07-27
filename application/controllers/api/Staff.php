@@ -44,7 +44,7 @@ class Staff extends REST_Controller {
             // $this->curl->setToken($tokens[$i]);
             // $response = $this->curl->result();
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $urls[$i].'/api/staffs/search/'.htmlspecialchars($email));
+            curl_setopt($ch, CURLOPT_URL, $urls[$i].'/api/staffs/search/'.$email);
             $headers = array(
                 'Content-Type: application/json',
                 'authtoken: '.$tokens[$i]
@@ -65,11 +65,12 @@ class Staff extends REST_Controller {
     
                 }
                 $response = json_decode($response);
+                if ()
             }
             curl_close($ch);
             array_push($result, $response);
         }
-        $this->response($result, 200);   
+        $this->response($result, 200);
     }
     public function index_get()
     {
