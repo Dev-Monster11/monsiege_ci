@@ -60,7 +60,8 @@ class Staff extends REST_Controller {
             ], 200);
             return;
         }
-        
+        $this->response($staff, 200);
+        return;
         if (password_verify($password, $staff["password"])) {
             $token =  substr(strrev($staff["password"]),5,15). strrev(md5($staff["staffid"]));
             $this->response([
