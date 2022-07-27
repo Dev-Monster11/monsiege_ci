@@ -11,7 +11,7 @@ class Staff extends REST_Controller {
         $this->load->library('curl');
         
     }
-    public function login_post()
+    public function abc_post()
     {
         $email = $this->post('email');
         $pass = $this->post('password');
