@@ -9,13 +9,21 @@ class MobileApi extends RestController {
         // Construct the parent class
         parent::__construct();
     }
-    public function users_post()
+    public function login_post()
     {
         $email = $this->post('email');
         $pass = $this->post('password');
-        
-
+        $this->respnse([
+            'email' => $email,
+            'password' => $pass
+        ], 200);
     }
-
+    public function test_get()
+    {
+        $this->response([
+            'status' => false,
+            'message' => "Success"
+        ], 200);
+    }
 }
 ?>
