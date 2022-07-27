@@ -3,23 +3,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 class Staff extends REST_Controller {
-
+    protected $urls = [];
+    protected $tokens = [];
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        
+        $this->urls = ['https://kraainem.monsiegesocial.be', 'https://bruxelles.monsiegesocial.be', 'https://overijse.monsiegesocial.be'];
+        $this->$tokens = ['eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NDA3fQ.XpRi1xqMhRltL4b4iReVboqGYME8JZdpESvFZrfaUsQ', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoic3RhZmZfbW9iaWxlIiwibmFtZSI6InN0YWZmX21vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODYxNDIwfQ.AWRB9c1Uqy2fVk0dIkf_qPKQZBu3y8Ql-OuiwnRSDgc', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NjMzfQ.JLACceWKpUmkHWZ94YkVuuEy4N28dai0l88dByhF0xI'];
     }
 
     private function searchStaff($val){
-        $urls = ['https://kraainem.monsiegesocial.be', 'https://bruxelles.monsiegesocial.be', 'https://overijse.monsiegesocial.be'];
-        $tokens = ['eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NDA3fQ.XpRi1xqMhRltL4b4iReVboqGYME8JZdpESvFZrfaUsQ', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoic3RhZmZfbW9iaWxlIiwibmFtZSI6InN0YWZmX21vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODYxNDIwfQ.AWRB9c1Uqy2fVk0dIkf_qPKQZBu3y8Ql-OuiwnRSDgc', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NjMzfQ.JLACceWKpUmkHWZ94YkVuuEy4N28dai0l88dByhF0xI'];
+
         for($i = 0; $i < 3; $i++){
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $urls[$i].'/api/staffs/search/'.$email);
+            curl_setopt($ch, CURLOPT_URL, $this->$urls[$i].'/api/staffs/search/'.$email);
             $headers = array(
                 'Content-Type: application/json',
-                'authtoken: '.$tokens[$i]
+                'authtoken: '.$this->$tokens[$i]
             );
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -38,6 +39,34 @@ class Staff extends REST_Controller {
             curl_close($ch);
         }        
         return false;
+    }
+
+    private function searchStaffById($id){
+
+        for($i = 0; $i < 3; $i++){
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $this->$urls[$i].'/api/staffs/'.$id);
+            $headers = array(
+                'Content-Type: application/json',
+                'authtoken: '.$this->$tokens[$i]
+            );
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            if(!curl_errno($ch))
+            {
+                $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                if ($resultStatus == 200) {
+                    $errorFlag = false;
+                    
+                    $staff = (array)json_decode($response);
+                    curl_close($ch);
+                    return $staff[0];
+                }
+            }
+            curl_close($ch);
+        }        
+        return false;        
     }
     public function login_post(){
         $email = $this->post('email');
@@ -103,6 +132,7 @@ class Staff extends REST_Controller {
     public function search_post(){
         $token = $this->post('token');
         $staffId = $this->post('staffId');
+        $staff = searchStaffById($staffId);
         
     }
 }   
