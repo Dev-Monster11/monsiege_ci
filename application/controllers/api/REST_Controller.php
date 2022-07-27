@@ -977,7 +977,7 @@ abstract class REST_Controller extends \CI_Controller {
         if ($this->config->item('enable_emulate_request') === TRUE)
         {
             $method = $this->input->post('_method');
-            if ($method === NULL)
+            if ($method === NULL || $method === '')
             {
                 $method = $this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE');
             }
