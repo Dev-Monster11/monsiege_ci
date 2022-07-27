@@ -166,7 +166,7 @@ class Curl {
       case 'delete':
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
       break;
-      default: return false;
+    //   default: return false;
     }
 	$this->set_option(CURLOPT_HEADER, ['Content-Type:application/json', 'authtoken:'.$this->token]);
     // insert params
