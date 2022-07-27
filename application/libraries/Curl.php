@@ -186,7 +186,10 @@ class Curl {
         // }
 		echo $url;
       break;
-      default: return false;
+      default: {
+		echo 'asdf';
+		return false;
+	  }
     }
 
     // set option for URL
