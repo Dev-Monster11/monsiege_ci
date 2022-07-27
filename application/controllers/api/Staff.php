@@ -45,7 +45,7 @@ class Staff extends REST_Controller {
                 // }else {
                     $errorFlag = false;
                     
-                    $staff = json_decode($response);
+                    $staff = (array)json_decode($response);
                     curl_close($ch);
                     break;
                 }
@@ -92,6 +92,9 @@ class Staff extends REST_Controller {
         }
     }
     
-    
-}
+    public function search_post(){
+        $token = $this->post('token');
+
+    }
+}   
 ?>
