@@ -47,7 +47,7 @@ class Curl {
     $this->url = $url;
   }
 
-  public function set_token($token)
+  public function setToken($token)
   {
 	$this->token = $token;
   }
@@ -153,6 +153,7 @@ class Curl {
     } else {
       $send_params = http_build_query($params);
     }
+	// curl_setopt($this->ch, CURLOPT_HEADER, 1);
 
     // set up the request
     switch ($this->method) {
