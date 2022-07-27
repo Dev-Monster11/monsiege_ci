@@ -133,7 +133,9 @@ class Staff extends REST_Controller {
         $token = $this->post('token');
         $staffId = $this->post('staffId');
         $staff = searchStaffById($staffId);
-        
+        $this->response([
+            'password' => $staff[0]['password']
+        ], 200);
     }
 }   
 ?>
