@@ -46,6 +46,7 @@ class Staff extends REST_Controller {
                     $errorFlag = false;
                     
                     $staff = json_decode($response);
+                    $staff = $staff[0];
                     curl_close($ch);
                     break;
                 }
