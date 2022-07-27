@@ -46,7 +46,6 @@ class Staff extends REST_Controller {
                     $errorFlag = false;
                     
                     $staff = json_decode($response);
-                    $staff = $staff[0];
                     curl_close($ch);
                     break;
                 }
@@ -63,13 +62,13 @@ class Staff extends REST_Controller {
         }
         $this->response($staff, 200);
         return;
-        if (password_verify($password, $staff["password"])) {
-            $token =  substr(strrev($staff["password"]),5,15). strrev(md5($staff["staffid"]));
+        if (password_verify($password, $staff[0]["password"])) {
+            $token =  substr(strrev($staff[0]["password"]),5,15). strrev(md5($staff[0]["staffid"]));
             $this->response([
                 'error'     => false,
                 'message'   => 'successful',
                 'data'      => [
-                    'staffId'   => $staff['staffid'],
+                    'staffId'   => $staff[0]['staffid'],
                     'email'     => $email
                 ]
                 ], 200);
