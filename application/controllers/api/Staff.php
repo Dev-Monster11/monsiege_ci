@@ -100,15 +100,13 @@ class Staff extends REST_Controller {
     }
     
     public function search_post(){
-        $token = $this->input->request_headers()['Token'];
+        $token = substr($this->input->request_headers()['Token'], 0, 15);
         $staffId = $this->post('staffId');
         $searchText = $this->post('searchText');
         $isOcr = $this->post('isOcr');
 
         $staff = $this->searchStaffById($staffId);
-        echo $staff->password;
-        
-        return;
+
         if(substr(strrev($staff->password), 5, 15) == $token) {
             // $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
