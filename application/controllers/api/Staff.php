@@ -219,6 +219,8 @@ class Staff extends REST_Controller {
             $companyId = $companyId / 255;
             $userid = 0;
             $client = array();
+            $this->response($companyId, 200);
+            return;
             $clients = $this->search('/api/customers/search/'.$companyId);
             if ($clients == false){
                 $this->response([
