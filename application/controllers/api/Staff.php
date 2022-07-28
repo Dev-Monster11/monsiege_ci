@@ -32,8 +32,6 @@ class Staff extends REST_Controller {
                 if ($resultStatus == 200) {
                     
                     $staff = json_decode($response);
-                    echo 'data found';
-                    var_dump($staff);
                     curl_close($ch);
                     return $staff;
                 }
