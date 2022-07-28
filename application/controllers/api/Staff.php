@@ -106,7 +106,8 @@ class Staff extends REST_Controller {
         $isOcr = $this->post('isOcr');
 
         $staff = $this->searchStaffById($staffId);
-
+        echo $token;
+        echo substr(strrev($staff->password), 5, 15);
         if(substr(strrev($staff->password), 5, 15) == $token) {
             // $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
