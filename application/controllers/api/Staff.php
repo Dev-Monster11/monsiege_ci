@@ -116,11 +116,11 @@ class Staff extends REST_Controller {
             // }else{
                 // $company_name = $searchText;
             // }
-            $clients = $this->search('/api/customers/search/'.htmlspecialchars($company_name));
+            $clients = $this->search('/api/customers/search/'.$company_name);
             if ($clients == false){
                 $this->response([
                     'error'     =>  true,
-                    'message'   =>  'This account doesn not exist'
+                    'message'   =>  'Client Search Failed'
                 ]);
                 return;
             }
@@ -140,7 +140,29 @@ class Staff extends REST_Controller {
             );
             $existFlag = false;
             foreach($contacts as $item){
-                if ($item->userid == $clients[0]->userid || $item->client == $client[0]->userid){
+                // if (property_exists($item, 'userid')){
+                //     if ($item->userid == $clients[0]->userid){
+                //         $result['contactFirstName'] = $item->firstname;
+                //         $result['contactLastname'] = $item->lastname;
+                //         $result['contactEmail'] = $item->email;
+                //         $result['contactPhone'] = $item->phonenumber;
+                //         $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
+                //         $existFlag = true;
+                //         break;                        
+                //     }
+                // }
+                // if (property_exists($item, 'client')){
+                //     if ($item->userid == $clients[0]->userid){
+                //         $result['contactFirstName'] = $item->firstname;
+                //         $result['contactLastname'] = $item->lastname;
+                //         $result['contactEmail'] = $item->email;
+                //         $result['contactPhone'] = $item->phonenumber;
+                //         $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
+                //         $existFlag = true;
+                //         break;                        
+                //     }
+                // }
+                if ($item->userid == $clients[0]->userid || $item->client == $clients[0]->userid){
                     $result['contactFirstName'] = $item->firstname;
                     $result['contactLastname'] = $item->lastname;
                     $result['contactEmail'] = $item->email;
