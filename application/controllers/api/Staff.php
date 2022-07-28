@@ -199,6 +199,12 @@ class Staff extends REST_Controller {
         $staff_id = $this->post('staffId');
         $qrCode = $this->post('qrCode');
         $staff = $this->search('/api/staffs/'.$staff_id);
+        if ($staff == false){
+            $this->response([
+                'error'     => true,
+                'message'   => 'This Staff does not exist'], 200);
+            return;
+        }
         $staff = $staff[0];
         if (substr(sttrev($staff->password), 5, 15) == $token){
             $array = ["#", "%", "d", "!", "?", "*", "^", "$", "S", "Z"];
@@ -293,6 +299,12 @@ class Staff extends REST_Controller {
 
     public function createticket_post(){
 
+    }
+
+
+    public function test_post(){
+        $staff = $this->search('/api/staffs/1583907178');
+        $this->response($staff, 200);
     }
 
 }   
