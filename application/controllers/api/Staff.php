@@ -100,7 +100,7 @@ class Staff extends REST_Controller {
     }
     
     public function search_post(){
-        $token = $this->post('token');
+        $token = $this->input->request_headers()['Token'];
         $staffId = $this->post('staffId');
         $searchText = $this->post('searchText');
         $isOcr = $this->post('isOcr');
@@ -109,12 +109,12 @@ class Staff extends REST_Controller {
         if(substr(strrev($staff[0]["password"]), 5, 15) == $token) {
             $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
-            $company_name = "";
-            if ($isOcr == true){
-                $company_name = $this->post('companyName');
-            }else{
-                $company_name = $searchText;
-            }
+            $company_name = $searchText;
+            // if ($isOcr == true){
+            //     $company_name = $this->post('companyName');
+            // }else{
+                // $company_name = $searchText;
+            // }
             $clients = $this->search('/api/customers/search/'.$company_name);
             if ($clients == false){
                 $this->response([
@@ -219,8 +219,6 @@ class Staff extends REST_Controller {
             $companyId = $companyId / 255;
             $userid = 0;
             $client = array();
-            $this->response($companyId, 200);
-            return;
             $clients = $this->search('/api/customers/search/'.$companyId);
             if ($clients == false){
                 $this->response([
