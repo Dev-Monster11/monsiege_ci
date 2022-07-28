@@ -124,6 +124,8 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
+            var_dump($clients);
+            return;
             $contacts = $this->search('/api/contacts/search/'.$clients[0]->userid);
             if ($contacts == false){
                 $this->response([
