@@ -205,7 +205,7 @@ class Staff extends REST_Controller {
                 'message'   => 'This Staff does not exist'], 200);
             return;
         }
-        if (substr(sttrev($staff->password), 5, 15) == $token){
+        if (substr(strrev($staff->password), 5, 15) == $token){
             $array = ["#", "%", "d", "!", "?", "*", "^", "$", "S", "Z"];
             $chars = str_split($qrCode);
             $companyId = "";
