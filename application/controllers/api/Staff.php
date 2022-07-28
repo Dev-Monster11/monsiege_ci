@@ -31,7 +31,7 @@ class Staff extends REST_Controller {
                 $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 if ($resultStatus == 200) {
                     
-                    $staff = (array)json_decode($response);
+                    $staff = json_decode($response);
                     curl_close($ch);
                     return $staff;
                 }
@@ -57,7 +57,7 @@ class Staff extends REST_Controller {
             {
                 $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 if ($resultStatus == 200) {
-                    $staff = (array)json_decode($response);
+                    $staff = json_decode($response);
                     curl_close($ch);
                     return $staff[0];
                 }
