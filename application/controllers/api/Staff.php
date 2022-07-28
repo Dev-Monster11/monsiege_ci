@@ -286,7 +286,7 @@ class Staff extends REST_Controller {
                         'client' =>  json_encode($client),
                         'tickets' => []
                     ]                    
-                ], 200)
+                ], 200);
             }
         }
     }
