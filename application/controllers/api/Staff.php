@@ -87,7 +87,7 @@ class Staff extends REST_Controller {
                 'error'     => false,
                 'message'   => 'successful',
                 'data'      => [
-                    'staffId'       => $staff[0]->staffid,
+                    'staffId'       => intval($staff[0]->staffid),
                     'email'         => $email,
                     'firstName'     => $staff[0]->firstname,
                     'lastName'      => $staff[0]->lastname,
