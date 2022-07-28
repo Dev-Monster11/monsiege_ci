@@ -115,7 +115,7 @@ class Staff extends REST_Controller {
             // }else{
                 // $company_name = $searchText;
             // }
-            $clients = $this->search('/api/customers/search/'.$company_name);
+            $clients = $this->search('/api/customers/search'.$company_name);
             if ($clients == false){
                 $this->response([
                     'error'     =>  true,
