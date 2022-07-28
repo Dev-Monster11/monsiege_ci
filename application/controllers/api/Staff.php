@@ -101,8 +101,7 @@ class Staff extends REST_Controller {
             
         // }
         $staff = $this->search('/api/staffs/search/'.$email);
-        var_dump($staff[0]->password);
-        return;
+
         if ($staff == false){
             $this->response([
                 'error'     => true,
@@ -111,18 +110,18 @@ class Staff extends REST_Controller {
             return;
         }
 
-        if (password_verify($password, $staff[0]["password"])) {
-            $token =  substr(strrev($staff[0]["password"]),5,15). strrev(md5($staff[0]["staffid"]));
+        if (password_verify($password, $staff[0]->password)) {
+            $token =  substr(strrev($staff[0]->password),5,15). strrev(md5($staff[0]->staffid));
             $this->response([
                 'error'     => false,
                 'message'   => 'successful',
                 'data'      => [
-                    'staffId'       => $staff[0]['staffid'],
+                    'staffId'       => $staff[0]->staffid,
                     'email'         => $email,
-                    'firstName'     => $staff[0]['firstName'],
-                    'lastName'      => $staff[0]['lastName'],
-                    'lastLogin'     => $staff[0]['lastLogin'],
-                    'lastActivity'  => $staff[0]['lastActivity'],
+                    'firstName'     => $staff[0]->firstname,
+                    'lastName'      => $staff[0]->lastname,
+                    'lastLogin'     => $staff[0]->lastLogin,
+                    'lastActivity'  => $staff[0]->lastActivity,
                     'token'         => $token,
                 ]
                 ], 200);
@@ -153,7 +152,7 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
-            $contacts = $this->search('/api/contacts/search/'.$clients[0]['userid']);
+            $contacts = $this->search('/api/contacts/search/'.$clients[0]->userid);
             if ($contacts == false){
                 $this->response([
                     'error'     => true,
@@ -162,19 +161,19 @@ class Staff extends REST_Controller {
                 return;
             }
             $result = array(
-                'companyId'         => $clients[0]['userid'],
-                'companyName'       => $clients[0]['company'],
-                'companyPhone'      => $clients[0]['phonenumber'],
-                'companyAddress'    => $clients[0]['address']
+                'companyId'         => $clients[0]->userid,
+                'companyName'       => $clients[0]->company,
+                'companyPhone'      => $clients[0]->phonenumber,
+                'companyAddress'    => $clients[0]->address
             );
             $existFlag = false;
             foreach($contacts as $item){
-                if ($item['userid'] == $clients[0]['userid'] || $item['client'] == $client[0]['userid']){
-                    $result['contactFirstName'] = $item['firstname'];
-                    $result['contactLastname'] = $item['lastname'];
-                    $result['contactEmail'] = $item['email'];
-                    $result['contactPhone'] = $item['phonenumber'];
-                    $result['dateFinContrat'] = date_format($item['dataend'], '%d/%m/%Y');
+                if ($item->userid == $clients[0]->userid || $item->client == $client[0]->userid){
+                    $result['contactFirstName'] = $item->firstname;
+                    $result['contactLastname'] = $item->lastname;
+                    $result['contactEmail'] = $item->email;
+                    $result['contactPhone'] = $item->phonenumber;
+                    $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                     $existFlag = true;
                     break;
                 }
