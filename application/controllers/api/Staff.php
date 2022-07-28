@@ -166,7 +166,7 @@ class Staff extends REST_Controller {
     }
 
     public function autologin_post(){
-        $token = substr($this->header('Token'), 0, 15);
+        $token = substr($this->input->request_headers()['Token'], 0, 15);
         $staff_id = $this->post('staffId');
         $staffs = $this->search('/api/staffs/'.$staff_id);
         foreach($staffs as $staff){
@@ -195,7 +195,7 @@ class Staff extends REST_Controller {
     }
 
     public function scanqr_post(){
-        $token = substr($this->header('Token'), 0, 15);
+        $token = substr($this->input->request_headers()['Token'], 0, 15);
         $staff_id = $this->post('staffId');
         $qrCode = $this->post('qrCode');
         $staff = $this->search('/api/staffs/'.$staff_id);
