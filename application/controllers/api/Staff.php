@@ -71,35 +71,6 @@ class Staff extends REST_Controller {
     public function login_post(){
         $email = $this->post('email');
         $password = $this->post('password');
-        // $urls = ['https://kraainem.monsiegesocial.be', 'https://bruxelles.monsiegesocial.be', 'https://overijse.monsiegesocial.be'];
-        // $tokens = ['eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NDA3fQ.XpRi1xqMhRltL4b4iReVboqGYME8JZdpESvFZrfaUsQ', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoic3RhZmZfbW9iaWxlIiwibmFtZSI6InN0YWZmX21vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODYxNDIwfQ.AWRB9c1Uqy2fVk0dIkf_qPKQZBu3y8Ql-OuiwnRSDgc', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NjMzfQ.JLACceWKpUmkHWZ94YkVuuEy4N28dai0l88dByhF0xI'];
-        // $staff = array();
-
-        
-        // for($i = 0; $i < 3; $i++){
-        //     $ch = curl_init();
-        //     curl_setopt($ch, CURLOPT_URL, $urls[$i].'/api/staffs/search/'.$email);
-        //     $headers = array(
-        //         'Content-Type: application/json',
-        //         'authtoken: '.$tokens[$i]
-        //     );
-        //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //     $response = curl_exec($ch);
-        //     if(!curl_errno($ch))
-        //     {
-        //         $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        //         if ($resultStatus == 200) {
-        //             $errorFlag = false;
-                    
-        //             $staff = (array)json_decode($response);
-        //             curl_close($ch);
-        //             break;
-        //         }
-        //     }
-        //     curl_close($ch);
-            
-        // }
         $staff = $this->search('/api/staffs/search/'.$email);
 
         if ($staff == false){
@@ -120,8 +91,8 @@ class Staff extends REST_Controller {
                     'email'         => $email,
                     'firstName'     => $staff[0]->firstname,
                     'lastName'      => $staff[0]->lastname,
-                    'lastLogin'     => $staff[0]->lastLogin,
-                    'lastActivity'  => $staff[0]->lastActivity,
+                    'lastLogin'     => $staff[0]->last_login,
+                    'lastActivity'  => $staff[0]->last_activity,
                     'token'         => $token,
                 ]
                 ], 200);
@@ -193,5 +164,136 @@ class Staff extends REST_Controller {
         ], 200);
 
     }
+
+    public function autologin_post(){
+        $token = substr($this->header('Token'), 0, 15);
+        $staff_id = $this->post('staffId');
+        $staffs = $this->search('/api/staffs/'.$staff_id);
+        foreach($staffs as $staff){
+            if (substr(strrev($staff->password), 5, 15) == $token){
+                $this->response([
+                    'error'         => false,
+                    'message'       => 'successful',
+                    'data'          => [
+                        'staffId'       => $staff->staffid,
+                        'email'         => $staff->email,
+                        'firstName'     => $staff->firstname,
+                        'lastName'      => $staff->lastname,
+                        'lastLogin'     => $staff->last_login,
+                        'lastActivity'  => $staff->last_activity,
+                        'token'         => $token,
+
+                        ]
+                    ], 200);
+                return;
+            }
+        }
+        $this->response([
+            'error'     => true,
+            'message'   => 'This account does not exist'
+        ], 200);
+    }
+
+    public function scanqr_post(){
+        $token = substr($this->header('Token'), 0, 15);
+        $staff_id = $this->post('staffId');
+        $qrCode = $this->post('qrCode');
+        $staff = $this->search('/api/staffs/'.$staff_id);
+        $staff = $staff[0];
+        if (substr(sttrev($staff->password), 5, 15) == $token){
+            $array = ["#", "%", "d", "!", "?", "*", "^", "$", "S", "Z"];
+            $chars = str_split($qrCode);
+            $companyId = "";
+            foreach ($chars as $char) {
+                foreach ($array as $key => $a) {
+                    if ($a == $char){
+                        $companyId.= $key;
+                    }
+                }
+            }
+            $companyId = $companyId / 255;
+            $userid = 0;
+            $client = array();
+            $clients = $this->search('/api/customers/search/'.$companyId);
+            if ($clients == false){
+                $this->response([
+                    'error'         => true,
+                    'message'       => 'Client Search Failed'
+                ]);
+                return;
+            }
+            foreach($clients as $item){
+                if ($item->userid == $companyId){
+                    $client['userid'] = $companyId;
+                    $client['company'] = $item->company;
+                    $client['companyPhone'] = $item->phonenumber;
+                    $client['companyAddress'] = $item->address;
+                    break;
+                }
+            }
+            $contacts = $this->search('/api/contacts/search/'.$companyId);
+            if ($contacts == false){
+                $this->response([
+                    'error'         => true,
+                    'message'       => 'Contacts Search Failed'
+                ]);
+                return;
+            }
+            foreach($contacts as $item){
+                if ($item->userid == $companyId || $item->client == $companyId){
+                    $client['contactFirstname'] = $item->firstname;
+                    $client['contactLastname'] = $item->lastname;
+                    $client['contactEmail'] = $item->email;
+                    $client['contactPhone'] = $item->phonenumber;
+                    $client['ContratdateFin'] = date_format($item->dataend, '%d/%m/%Y');
+                    break;
+                }
+            }
+            $tickets = $this->search('/api/tickets/search/'.$companyId);
+            $tts = array();
+            $existFlag = false;
+            foreach($tickets as $item){
+                if ($item->status == 0) continue;
+                $result = array(
+                    'ticketid'      => $item->ticketid,
+                    'subject'       => $item->subject,
+                    'DateTicket'    => date_format($item->date, '%d/%m/%Y %H:%i:%s'),
+                    'file_name'     => $item->attachments
+                );
+                // $result['ticketid'] = $item->ticketid;
+                // $result['subject']  = $item->subject;
+                // $result['DateTicket'] = date_format($item->date, '%d/%m/%Y %H:%i:%s');
+                // $result['file_name'] = $item->attachments;
+                array_push($tts, $result);
+                $existFlag = true;
+                break;
+            }
+            if ($existFlag == true){
+                $this->response([
+                    'error'         => false,
+                    'message'       => 'successful',
+                    'data'          => {
+                        'client': json_encode($client), 
+                        'tickets': json_encode($tts)
+                    }
+                ], 200);
+                return;
+            }else{
+                $this->response([
+                    'error'         => false,
+                    'message'       => 'successful',
+                    'data'          => {
+                        'client' =>  json_encode($client),
+                        'tickets' => []
+                    }                    
+                ], 200)
+            }
+        }
+    }
+
+    public function createticket_post(){
+
+    }
+
 }   
 ?>
