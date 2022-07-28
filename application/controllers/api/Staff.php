@@ -101,7 +101,8 @@ class Staff extends REST_Controller {
             
         // }
         $staff = $this->search('/api/staffs/search/'.$email);
-
+        echo $staff;
+        return;
         if ($staff == false){
             $this->response([
                 'error'     => true,
