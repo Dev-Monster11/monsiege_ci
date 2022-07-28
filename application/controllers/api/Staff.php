@@ -272,20 +272,20 @@ class Staff extends REST_Controller {
                 $this->response([
                     'error'         => false,
                     'message'       => 'successful',
-                    'data'          => {
-                        'client': json_encode($client), 
-                        'tickets': json_encode($tts)
-                    }
+                    'data'          => [
+                        'client'    => json_encode($client), 
+                        'tickets'   => json_encode($tts)
+                    ]
                 ], 200);
                 return;
             }else{
                 $this->response([
                     'error'         => false,
                     'message'       => 'successful',
-                    'data'          => {
+                    'data'          => [
                         'client' =>  json_encode($client),
                         'tickets' => []
-                    }                    
+                    ]                    
                 ], 200)
             }
         }
