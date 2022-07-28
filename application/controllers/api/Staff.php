@@ -58,6 +58,7 @@ class Staff extends REST_Controller {
                 $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 if ($resultStatus == 200) {
                     $staff = json_decode($response);
+                    echo 'asdf';
                     curl_close($ch);
                     return $staff;
                 }
