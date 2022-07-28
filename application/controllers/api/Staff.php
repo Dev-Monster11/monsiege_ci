@@ -30,7 +30,6 @@ class Staff extends REST_Controller {
             {
                 $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 if ($resultStatus == 200) {
-                    $errorFlag = false;
                     
                     $staff = (array)json_decode($response);
                     curl_close($ch);
@@ -58,8 +57,6 @@ class Staff extends REST_Controller {
             {
                 $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 if ($resultStatus == 200) {
-                    $errorFlag = false;
-                    
                     $staff = (array)json_decode($response);
                     curl_close($ch);
                     return $staff[0];
@@ -79,7 +76,6 @@ class Staff extends REST_Controller {
         // $staff = array();
 
         
-        // $errorFlag = true;
         // for($i = 0; $i < 3; $i++){
         //     $ch = curl_init();
         //     curl_setopt($ch, CURLOPT_URL, $urls[$i].'/api/staffs/search/'.$email);
@@ -105,8 +101,7 @@ class Staff extends REST_Controller {
             
         // }
         $staff = $this->search('/api/staffs/search/'.$email);
-        echo (gettype($staff));
-        return;
+
         if ($staff == false){
             $this->response([
                 'error'     => true,
