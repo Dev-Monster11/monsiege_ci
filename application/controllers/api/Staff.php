@@ -13,11 +13,12 @@ class Staff extends REST_Controller {
         $this->$tokens = ['eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NDA3fQ.XpRi1xqMhRltL4b4iReVboqGYME8JZdpESvFZrfaUsQ', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoic3RhZmZfbW9iaWxlIiwibmFtZSI6InN0YWZmX21vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODYxNDIwfQ.AWRB9c1Uqy2fVk0dIkf_qPKQZBu3y8Ql-OuiwnRSDgc', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibW9iaWxlIiwibmFtZSI6Im1vYmlsZSIsIkFQSV9USU1FIjoxNjU4ODU3NjMzfQ.JLACceWKpUmkHWZ94YkVuuEy4N28dai0l88dByhF0xI'];
     }
 
-    private function searchStaff($val){
+    private function search($val){
 
         for($i = 0; $i < 3; $i++){
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->$urls[$i].'/api/staffs/search/'.$email);
+            // curl_setopt($ch, CURLOPT_URL, $this->$urls[$i].'/api/staffs/search/'.$val);
+            curl_setopt($ch, CURLOPT_URL, $this->$urls[$i].$val);
             $headers = array(
                 'Content-Type: application/json',
                 'authtoken: '.$this->$tokens[$i]
@@ -68,6 +69,8 @@ class Staff extends REST_Controller {
         }        
         return false;        
     }
+
+
     public function login_post(){
         $email = $this->post('email');
         $password = $this->post('password');
@@ -101,11 +104,11 @@ class Staff extends REST_Controller {
         //     curl_close($ch);
             
         // }
-        $staff = searchStaff($email);
+        $staff = search('/api/staffs/search/'.$email);
         
         if ($staff == false){
             $this->response([
-                'error'     => $errorFlag,
+                'error'     => true,
                 'message'   => 'This account does not exist' 
             ], 200);
             return;
@@ -132,10 +135,67 @@ class Staff extends REST_Controller {
     public function search_post(){
         $token = $this->post('token');
         $staffId = $this->post('staffId');
+        $searchText = $this->post('searchText');
+        $isOcr = $this->post('isOcr');
+
         $staff = searchStaffById($staffId);
+        if(substr(strrev($staff[0]["password"]), 5, 15) == $token) {
+            $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
+            $search_text = strtolower($searchText);
+            $company_name = "";
+            if ($isOcr == true){
+                $company_name = $this->post('companyName');
+            }else{
+                $company_name = $searchText;
+            }
+            $clients = search('/api/customers/search/'.$company_name);
+            if ($clients == false){
+                $this->response([
+                    'error'     =>  true,
+                    'message'   =>  'This account doesn not exist'
+                ]);
+                return;
+            }
+            $contacts = search('/api/contacts/search/'.$clients[0]['userid']);
+            if ($contacts == false){
+                $this->response([
+                    'error'     => true,
+                    'message'   => 'Contact does not exist'
+                ]);
+                return;
+            }
+            $result = array(
+                'companyId'         => $clients[0]['userid'],
+                'companyName'       => $clients[0]['company'],
+                'companyPhone'      => $clients[0]['phonenumber'],
+                'companyAddress'    => $clients[0]['address']
+            );
+            $existFlag = false;
+            foreach($contacts as $item){
+                if ($item['userid'] == $clients[0]['userid'] || $item['client'] == $client[0]['userid']){
+                    $result['contactFirstName'] = $item['firstname'];
+                    $result['contactLastname'] = $item['lastname'];
+                    $result['contactEmail'] = $item['email'];
+                    $result['contactPhone'] = $item['phonenumber'];
+                    $result['dateFinContrat'] = date_format($item['dataend'], '%d/%m/%Y');
+                    $existFlag = true;
+                    break;
+                }
+            }
+            if ($existFlag == true){
+                $this->response($result, 200);
+            }else{
+                $this->response([
+                    'error'     => true,
+                    'message'   => 'Contact does not exist'
+                ]);
+            }
+        }
         $this->response([
-            'password' => $staff[0]['password']
+            'error'     => true,
+            'message'   => 'Token is wrong'
         ], 200);
+
     }
 }   
 ?>
