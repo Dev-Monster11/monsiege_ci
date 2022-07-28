@@ -108,7 +108,7 @@ class Staff extends REST_Controller {
         $staff = $this->searchStaffById($staffId);
         var_dump($token);
         var_dump(substr(strrev($staff->password), 5, 15));
-        if(substr(strrev($staff->password), 5, 15) == $token) {
+        if(substr(strrev($staff->password), 5, 15) != $token) {
             // $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
             $company_name = $searchText;
