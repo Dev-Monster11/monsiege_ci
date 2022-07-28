@@ -59,7 +59,7 @@ class Staff extends REST_Controller {
                 if ($resultStatus == 200) {
                     $staff = json_decode($response);
                     curl_close($ch);
-                    return $staff[0];
+                    return $staff;
                 }
             }
             curl_close($ch);
@@ -107,7 +107,7 @@ class Staff extends REST_Controller {
 
         $staff = $this->searchStaffById($staffId);
         if(substr(strrev($staff[0]["password"]), 5, 15) == $token) {
-            $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
+            // $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
             $company_name = $searchText;
             // if ($isOcr == true){
