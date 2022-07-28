@@ -109,7 +109,7 @@ class Staff extends REST_Controller {
         if(substr(strrev($staff->password), 5, 15) == $token) {
             // $indexes = [ "grensstraat", "limite", "mechelen", "malines", "empereur", "keizerslaan"];
             $search_text = strtolower($searchText);
-            $company_name = $searchText;
+            $company_name = $search_text;
             // if ($isOcr == true){
             //     $company_name = $this->post('companyName');
             // }else{
