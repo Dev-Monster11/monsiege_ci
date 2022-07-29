@@ -120,8 +120,10 @@ class Staff extends REST_Controller {
             $rClients = array();
             if (is_array($clients)){
                 foreach($clients as $client){
-                    if ($client->company.contains($company_name)
+                    if ($client->company.contains($company_name)){
                         array_push($rClients, $client);
+                    }
+
                 }
             }
             var_dump($rClients);
