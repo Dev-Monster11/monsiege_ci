@@ -184,7 +184,7 @@ class Staff extends REST_Controller {
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
                         $result['contactPhone'] = $item->phonenumber;
-                        $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
+                        // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;
                     }
@@ -195,7 +195,7 @@ class Staff extends REST_Controller {
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
                         $result['contactPhone'] = $item->phonenumber;
-                        $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
+                        // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;                        
                     }
@@ -311,7 +311,7 @@ class Staff extends REST_Controller {
                     $client['contactLastname'] = $item->lastname;
                     $client['contactEmail'] = $item->email;
                     $client['contactPhone'] = $item->phonenumber;
-                    $client['ContratdateFin'] = date_format($item->dataend, '%d/%m/%Y');
+                    // $client['ContratdateFin'] = date_format($item->dataend, '%d/%m/%Y');
                     break;
                 }
             }
