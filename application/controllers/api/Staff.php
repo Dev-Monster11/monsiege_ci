@@ -150,8 +150,10 @@ class Staff extends REST_Controller {
             if (is_array($clients)){
                 foreach($clients as $client){
                     
-                    if (strpos($client->company, $company_name) !== false){
+                    // if (strpos($client->company, $company_name) !== false){
+                    if ($client->company == $company_name){
                         array_push($rClients, $client);    
+                        break;
                     }
 
                 }
