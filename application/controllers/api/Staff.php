@@ -36,7 +36,7 @@ class Staff extends REST_Controller {
                         
                         $staff = json_decode($response);
                         curl_close($ch);
-                        $this->index = $i;
+                        // $this->index = $i;
                         return $staff;
                     }
                 }
