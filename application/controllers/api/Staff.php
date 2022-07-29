@@ -154,7 +154,7 @@ class Staff extends REST_Controller {
                     // if (strpos($client->company, $company_name) !== false){
                     if (strtolower($client->company) == $company_name){
                         array_push($rClients, $client);    
-                        break;
+                        // break;
                     }
 
                 }
