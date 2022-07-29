@@ -17,7 +17,7 @@ class Staff extends REST_Controller {
 
     private function search($val){
 
-        for($i = 0; $i < 1; $i++){
+        for($i = 0; $i < 3; $i++){
             $ch = curl_init();
             // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
             curl_setopt($ch, CURLOPT_URL, $this->urls[$i].$val);
