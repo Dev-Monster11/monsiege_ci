@@ -17,7 +17,6 @@ class Staff extends REST_Controller {
     }
 
     private function search($val){
-        if ($this->index == -1){
             for($i = 0; $i < 3; $i++){
                 $ch = curl_init();
                 // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
@@ -43,31 +42,31 @@ class Staff extends REST_Controller {
                 curl_close($ch);
             }        
             return false;
-        }else{
-            $ch = curl_init();
-            // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
-            curl_setopt($ch, CURLOPT_URL, $this->urls[$this->index].$val);
-            $headers = array(
-                'Content-Type: application/json',
-                'authtoken: '.$this->tokens[$this->index]
-            );
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-            if(!curl_errno($ch))
-            {
-                $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                if ($resultStatus == 200) {
+        // }else{
+        //     $ch = curl_init();
+        //     // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
+        //     curl_setopt($ch, CURLOPT_URL, $this->urls[$this->index].$val);
+        //     $headers = array(
+        //         'Content-Type: application/json',
+        //         'authtoken: '.$this->tokens[$this->index]
+        //     );
+        //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //     $response = curl_exec($ch);
+        //     if(!curl_errno($ch))
+        //     {
+        //         $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //         if ($resultStatus == 200) {
                     
-                    $staff = json_decode($response);
-                    curl_close($ch);
-                    return $staff;
-                }
-            }
-            curl_close($ch);
+        //             $staff = json_decode($response);
+        //             curl_close($ch);
+        //             return $staff;
+        //         }
+        //     }
+        //     curl_close($ch);
     
-            return false;            
-        }
+        //     return false;            
+        // }
     }
 
     private function searchStaffById($id){
