@@ -5,6 +5,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Staff extends REST_Controller {
     protected $urls = [];
     protected $tokens = [];
+    protected $index = -1;
     function __construct()
     {
         // Construct the parent class
@@ -16,14 +17,39 @@ class Staff extends REST_Controller {
     }
 
     private function search($val){
-
-        for($i = 0; $i < 3; $i++){
+        if ($this->index == -1){
+            for($i = 0; $i < 3; $i++){
+                $ch = curl_init();
+                // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
+                curl_setopt($ch, CURLOPT_URL, $this->urls[$i].$val);
+                $headers = array(
+                    'Content-Type: application/json',
+                    'authtoken: '.$this->tokens[$i]
+                );
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                if(!curl_errno($ch))
+                {
+                    $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    if ($resultStatus == 200) {
+                        
+                        $staff = json_decode($response);
+                        curl_close($ch);
+                        $this->index = $i;
+                        return $staff;
+                    }
+                }
+                curl_close($ch);
+            }        
+            return false;
+        }else{
             $ch = curl_init();
             // curl_setopt($ch, CURLOPT_URL, $this->urls[$i].'/api/staffs/search/'.$val);
-            curl_setopt($ch, CURLOPT_URL, $this->urls[$i].$val);
+            curl_setopt($ch, CURLOPT_URL, $this->urls[$this->index].$val);
             $headers = array(
                 'Content-Type: application/json',
-                'authtoken: '.$this->tokens[$i]
+                'authtoken: '.$this->tokens[$this->index]
             );
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -39,8 +65,9 @@ class Staff extends REST_Controller {
                 }
             }
             curl_close($ch);
-        }        
-        return false;
+    
+            return false;            
+        }
     }
 
     private function searchStaffById($id){
