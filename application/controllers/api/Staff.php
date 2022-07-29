@@ -153,12 +153,15 @@ class Staff extends REST_Controller {
                     
                     // if (strpos($client->company, $company_name) !== false){
                     if (strtolower($client->company) == $company_name){
+
                         array_push($rClients, $client);    
                         // break;
                     }
 
                 }
             }
+            var_dump($rClients[0]);
+
             $contacts = $this->search('/api/contacts/search/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
