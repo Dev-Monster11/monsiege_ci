@@ -150,8 +150,6 @@ class Staff extends REST_Controller {
             $rClients = array();
             if (is_array($clients)){
                 foreach($clients as $client){
-                    
-                    // if (strpos($client->company, $company_name) !== false){
                     if (strtolower($client->company) == $company_name){
                         array_push($rClients, $client);
                     }
@@ -197,15 +195,7 @@ class Staff extends REST_Controller {
                         break;                        
                     }
                 }
-                // if ($item->userid == $clients[0]->userid || $item->client == $clients[0]->userid){
-                //     $result['contactFirstName'] = $item->firstname;
-                //     $result['contactLastname'] = $item->lastname;
-                //     $result['contactEmail'] = $item->email;
-                //     $result['contactPhone'] = $item->phonenumber;
-                //     $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
-                //     $existFlag = true;
-                //     break;
-                // }
+
             // }
             if ($existFlag == true){
                 $this->response($result, 200);
