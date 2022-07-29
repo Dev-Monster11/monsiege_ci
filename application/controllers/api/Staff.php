@@ -174,6 +174,8 @@ class Staff extends REST_Controller {
                 'companyAddress'    => $rClients[0]->address
             );
             echo 'userid:'.$rClients[0]->userid;
+            echo "\n";
+            echo count($rClients);
             $existFlag = false;
             foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
@@ -185,7 +187,7 @@ class Staff extends REST_Controller {
                         $result['contactPhone'] = $item->phonenumber;
                         $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
-                        break;                        
+                        break;
                     }
                 }
                 if (property_exists($item, 'client')){
