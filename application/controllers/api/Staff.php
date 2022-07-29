@@ -146,6 +146,7 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
+            var_dump($clients);
             $rClients = array();
             if (is_array($clients)){
                 foreach($clients as $client){
