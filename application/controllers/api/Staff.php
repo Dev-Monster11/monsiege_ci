@@ -133,6 +133,10 @@ class Staff extends REST_Controller {
         $searchText = $this->post('searchText');
         $isOcr = $this->post('isOcr');
         $staff = $this->searchStaffById($staffId);
+        var_dump(substr(strrev($staff->password), 5, 15));
+        echo "\n";
+        var_dump($token);
+        return;
         if(substr(strrev($staff->password), 5, 15) == $token) {
             $search_text = strtolower($searchText);
             $company_name = $search_text;
