@@ -146,20 +146,18 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
-
-            $client = array();
             if (is_array($clients)){
-                foreach($clients as $item){
+                foreach($clients as $client){
                     
                     // if (strpos($client->company, $company_name) !== false){
-                    if (strtolower($item->company) == $company_name){
-                        array_push($client, $item);    
+                    if (strtolower($client->company) == $company_name){
+                        array_push($rClients, $client);    
                         break;
                     }
 
                 }
             }
-            $contacts = $this->search('/api/contacts/search/'.$client[0]->userid);
+            $contacts = $this->search('/api/contacts/search/'.$clients[0]->userid);
             if ($contacts == false){
                 $this->response([
                     'error'     => true,
@@ -168,15 +166,15 @@ class Staff extends REST_Controller {
                 return;
             }
             $result = array(
-                'companyId'         => $client[0]->userid,
-                'companyName'       => $client[0]->company,
-                'companyPhone'      => $client[0]->phonenumber,
-                'companyAddress'    => $client[0]->address
+                'companyId'         => $clients[0]->userid,
+                'companyName'       => $clients[0]->company,
+                'companyPhone'      => $clients[0]->phonenumber,
+                'companyAddress'    => $clients[0]->address
             );
             $existFlag = false;
             foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
-                    if ($item->userid == $client[0]->userid){
+                    if ($item->userid == $clients[0]->userid){
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
@@ -187,7 +185,7 @@ class Staff extends REST_Controller {
                     }
                 }
                 if (property_exists($item, 'client')){
-                    if ($item->userid == $client[0]->userid){
+                    if ($item->userid == $clients[0]->userid){
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
