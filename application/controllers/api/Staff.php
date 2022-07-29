@@ -175,6 +175,8 @@ class Staff extends REST_Controller {
             );
             $existFlag = false;
             $item = $contacts[0];
+            var_dump($item);
+            return;
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
                     if ($item->userid == $rClients[0]->userid){
