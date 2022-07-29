@@ -134,7 +134,7 @@ class Staff extends REST_Controller {
         $isOcr = $this->post('isOcr');
         $staff = $this->searchStaffById($staffId);
 
-        // if(substr(strrev($staff->password), 5, 15) == $token)
+        if(substr(strrev($staff->password), 5, 15) == $token)
          {
             $search_text = strtolower($searchText);
             $company_name = $search_text;
@@ -189,7 +189,7 @@ class Staff extends REST_Controller {
                     }
                 }
                 if (property_exists($item, 'client')){
-                    echo 'contactclient:'.$item->client;
+                    echo 'contactuserid:'.$item->userid;
                     if ($item->userid == $rClients[0]->userid){
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
@@ -219,10 +219,10 @@ class Staff extends REST_Controller {
                 ]);
             }
         }
-        // $this->response([
-        //     'error'     => true,
-        //     'message'   => 'Token is wrong'
-        // ], 200);
+        $this->response([
+            'error'     => true,
+            'message'   => 'Token is wrong'
+        ], 200);
 
     }
 
