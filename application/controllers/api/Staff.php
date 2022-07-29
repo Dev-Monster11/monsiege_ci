@@ -173,11 +173,11 @@ class Staff extends REST_Controller {
                 'companyPhone'      => $rClients[0]->phonenumber,
                 'companyAddress'    => $rClients[0]->address
             );
-            var_dump($contacts);
-            return;
+            echo 'userid:'.$rClients[0]->userid;
             $existFlag = false;
             foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
+                    echo 'contactuserid:'.$item->userid;
                     if ($item->userid == $rClients[0]->userid){
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
@@ -189,6 +189,7 @@ class Staff extends REST_Controller {
                     }
                 }
                 if (property_exists($item, 'client')){
+                    echo 'contactclient:'.$item->client;
                     if ($item->userid == $rClients[0]->userid){
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
