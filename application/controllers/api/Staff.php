@@ -153,14 +153,11 @@ class Staff extends REST_Controller {
                     
                     // if (strpos($client->company, $company_name) !== false){
                     if (strtolower($client->company) == $company_name){
-
-                        array_push($rClients, $client);    
-                        // break;
+                        array_push($rClients, $client);
                     }
 
                 }
             }
-            var_dump($rClients[0]);
 
             $contacts = $this->search('/api/contacts/search/'.$rClients[0]->userid);
             if ($contacts == false){
@@ -176,9 +173,7 @@ class Staff extends REST_Controller {
                 'companyPhone'      => $rClients[0]->phonenumber,
                 'companyAddress'    => $rClients[0]->address
             );
-            echo 'userid:'.$rClients[0]->userid;
-            echo "\n";
-            echo count($rClients);
+            var_dump($contacts);
             $existFlag = false;
             foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
