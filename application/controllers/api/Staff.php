@@ -152,7 +152,8 @@ class Staff extends REST_Controller {
                 foreach($clients as $client){
                     
                     // if (strpos($client->company, $company_name) !== false){
-                    if (strtolower($client->company) == $company_name){
+                    if (str_contains(strtolower($client->company), $company_name)){
+                    // if (strtolower($client->company) $company_name){
                         array_push($rClients, $client);
                     }
 
