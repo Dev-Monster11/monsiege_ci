@@ -216,10 +216,10 @@ class Staff extends REST_Controller {
                 ]);
             }
         }
-        $this->response([
-            'error'     => true,
-            'message'   => 'Token is wrong'
-        ], 200);
+        // $this->response([
+        //     'error'     => true,
+        //     'message'   => 'Token is wrong'
+        // ], 200);
 
     }
 
