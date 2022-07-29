@@ -159,7 +159,7 @@ class Staff extends REST_Controller {
                 }
             }
 
-            $contacts = $this->search('/api/contacts/search/'.$rClients[0]->userid);
+            $contacts = $this->search('/api/contacts/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
                     'error'     => true,
