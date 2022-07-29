@@ -173,6 +173,8 @@ class Staff extends REST_Controller {
                 'companyPhone'      => $rClients[0]->phonenumber,
                 'companyAddress'    => $rClients[0]->address
             );
+            var_dump($contacts);
+            return;
             $existFlag = false;
             foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
