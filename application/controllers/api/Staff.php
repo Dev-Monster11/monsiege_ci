@@ -181,7 +181,7 @@ class Staff extends REST_Controller {
                         $result['contactPhone'] = $item->phonenumber;
                         $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
-                        break;
+                        // break;
                     }
                 }
                 if (property_exists($contacts[0], 'client')){
@@ -192,7 +192,7 @@ class Staff extends REST_Controller {
                         $result['contactPhone'] = $item->phonenumber;
                         $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
-                        break;                        
+                        // break;                        
                     }
                 }
 
