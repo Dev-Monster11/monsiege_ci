@@ -124,7 +124,12 @@ class Staff extends REST_Controller {
                     'token'         => $token,
                 ]
                 ], 200);
+            return;
         }
+        $this->response([
+            'error'     => true,
+            'message'   => 'This account does not exist' 
+        ], 200);
     }
     
     public function search_post(){
@@ -154,15 +159,13 @@ class Staff extends REST_Controller {
                     // if (strpos($client->company, $company_name) !== false){
                     // if (str_contains(strtolower($client->company), $company_name)){
                     // if (strtolower($client->company) $company_name){
-                    if (strpos(strtolower($client->company), $company_name) !== false){                        array_push($rClients, $client);
+                    if (strpos(strtolower($client->company), $company_name) !== false){
+                       array_push($rClients, $client);
                     }
 
                 }
             }
-            // var_dump($rClients);
-            // return;
-            $contacts = $this->search('/api/contacts/search/'.$rClients[0]->userid);
-            echo $rClients[0]->userid;
+            $contacts = $this->search('/api/contacts/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
                     'error'     => true,
