@@ -226,7 +226,7 @@ class Staff extends REST_Controller {
                     'error'         => false,
                     'message'       => 'successful',
                     'data'          => [
-                        'clients'   => [$result]
+                        'clients'   => [json_encode($result)]
                     ]
                 ], 200);
             }else{
