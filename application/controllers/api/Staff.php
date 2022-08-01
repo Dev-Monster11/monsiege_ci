@@ -227,14 +227,16 @@ class Staff extends REST_Controller {
                 // }
             // }
                 var_dump($existFlag);
-            if ($existFlag === true){
+            if ($existFlag == true){
                 $this->response($result, 200);
             }else{
                 $this->response([
                     'error'     => true,
                     'message'   => 'Contact does not exist'
                 ]);
+
             }
+            return;
         }
         $this->response([
             'error'     => true,
