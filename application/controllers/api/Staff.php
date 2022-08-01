@@ -124,12 +124,12 @@ class Staff extends REST_Controller {
                     'token'         => $token,
                 ]
                 ], 200);
-            return;
+        }else {
+            $this->response([
+                'error'     => true,
+                'message'   => 'This account does not exist' 
+            ], 200);
         }
-        $this->response([
-            'error'     => true,
-            'message'   => 'This account does not exist' 
-        ], 200);
     }
     
     public function search_post(){
@@ -181,8 +181,6 @@ class Staff extends REST_Controller {
             );
             $existFlag = false;
             $item = $contacts[0];
-            var_dump($item);
-            return;
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
                     if ($item->userid == $rClients[0]->userid){
