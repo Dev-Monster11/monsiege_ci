@@ -186,10 +186,15 @@ class Staff extends REST_Controller {
             );
             $existFlag = false;
             $item = $contacts[0];
-            var_dump($item);
+
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
+                    echo $item->userid;
+                    echo "\n";
+                    echo $rClients[0]->userid;
+                    return;
                     if ($item->userid == $rClients[0]->userid){
+
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
