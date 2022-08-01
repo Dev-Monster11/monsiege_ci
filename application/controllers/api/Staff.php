@@ -225,9 +225,7 @@ class Staff extends REST_Controller {
                 $this->response([
                     'error'         => false,
                     'message'       => 'successful',
-                    'data'          => [
-                        'clients'   => $result
-                    ]
+                    'data'          =>json_encode($result)
                 ], 200);
             }else{
                 $this->response([
