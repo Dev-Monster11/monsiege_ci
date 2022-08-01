@@ -168,7 +168,7 @@ class Staff extends REST_Controller {
 
                 }
             }
-            
+
             $contacts = $this->search('/api/contacts/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
@@ -186,6 +186,7 @@ class Staff extends REST_Controller {
             );
             $existFlag = false;
             $item = $contacts[0];
+            var_dump($item);
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
                     if ($item->userid == $rClients[0]->userid){
