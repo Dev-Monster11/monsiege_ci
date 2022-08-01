@@ -222,14 +222,14 @@ class Staff extends REST_Controller {
                 // }
             // }
             if ($existFlag == true){
-                header('Content-Type: application/json');
-                echo '{"error"         => false,
+                // header('Content-Type: application/json');
+                echo json_encode('{"error"         => false,
                     "message"       => "successful",
                     "data"          => {
                         "clients"   => '.json_encode([$result]).'
                     }
                     
-                }';
+                }');
                 return;
             }else{
                 $this->response([
