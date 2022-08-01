@@ -194,7 +194,7 @@ class Staff extends REST_Controller {
                     echo $rClients[0]->userid;
                     return;
                     if ($item->userid == $rClients[0]->userid){
-
+                        echo 'equal';
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
