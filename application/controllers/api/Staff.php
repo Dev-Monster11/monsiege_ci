@@ -168,7 +168,7 @@ class Staff extends REST_Controller {
 
                 }
             }
-            echo $rClients;
+            var_dump($rClients);
             $contacts = $this->search('/api/contacts/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
@@ -177,7 +177,7 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
-            echo $contacts;
+            var_dump($contacts);
             $result = array(
                 'companyId'         => $rClients[0]->userid,
                 'companyName'       => $rClients[0]->company,
