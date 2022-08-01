@@ -190,12 +190,7 @@ class Staff extends REST_Controller {
 
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
-                    // echo $item->userid;
-                    // echo "\n";
-                    // echo $rClients[0]->userid;
-                    // return;
                     if (intval($item->userid) == intval($rClients[0]->userid)){
-                        echo 'equal';
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
                         $result['contactEmail'] = $item->email;
