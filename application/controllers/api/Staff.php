@@ -222,7 +222,12 @@ class Staff extends REST_Controller {
                 // }
             // }
             if ($existFlag == true){
-                $this->response($result, 200);
+                $this->response([
+                    'error' => false,
+                    'data' => [
+                        'clients' => $result
+                    ]
+                ], 200);
             }else{
                 $this->response([
                     'error'     => true,
