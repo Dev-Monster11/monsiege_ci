@@ -226,7 +226,7 @@ class Staff extends REST_Controller {
                 //     break;
                 // }
             // }
-            if ($existFlag == true){
+            if ($existFlag === true){
                 $this->response($result, 200);
             }else{
                 $this->response([
