@@ -142,7 +142,7 @@ class Staff extends REST_Controller {
         // echo "\n";
         // echo substr(strrev($staff->password), 5, 15);
         // return;
-        // if(substr(strrev($staff->password), 5, 15) == $token)
+        if(substr(strrev($staff->password), 5, 15) == $token)
          {
             $search_text = strtolower($searchText);
             $company_name = $search_text;
@@ -168,6 +168,7 @@ class Staff extends REST_Controller {
 
                 }
             }
+            echo $rClients;
             $contacts = $this->search('/api/contacts/'.$rClients[0]->userid);
             if ($contacts == false){
                 $this->response([
@@ -176,6 +177,7 @@ class Staff extends REST_Controller {
                 ]);
                 return;
             }
+            echo $contacts;
             $result = array(
                 'companyId'         => $rClients[0]->userid,
                 'companyName'       => $rClients[0]->company,
