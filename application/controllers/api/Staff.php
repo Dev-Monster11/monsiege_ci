@@ -142,7 +142,8 @@ class Staff extends REST_Controller {
         // echo "\n";
         // echo substr(strrev($staff->password), 5, 15);
         // return;
-        if(substr(strrev($staff->password), 5, 15) == $token)
+        // if(substr(strrev($staff->password), 5, 15) == $token)
+        if(strcmp(substr(strrev($staff->password), 5, 15),$token) == 0)
          {
             $search_text = strtolower($searchText);
             $company_name = $search_text;
@@ -189,11 +190,11 @@ class Staff extends REST_Controller {
 
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
-                    echo $item->userid;
-                    echo "\n";
-                    echo $rClients[0]->userid;
-                    return;
-                    if ($item->userid == $rClients[0]->userid){
+                    // echo $item->userid;
+                    // echo "\n";
+                    // echo $rClients[0]->userid;
+                    // return;
+                    if (intval($item->userid) == intval($rClients[0]->userid)){
                         echo 'equal';
                         $result['contactFirstName'] = $item->firstname;
                         $result['contactLastname'] = $item->lastname;
