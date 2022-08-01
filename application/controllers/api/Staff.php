@@ -224,7 +224,7 @@ class Staff extends REST_Controller {
             if ($existFlag == true){
                 $this->response([
                     'error'         => false,
-                    'message'       => 'successful'
+                    'message'       => 'successful',
                     'data'          => [
                         'clients'   => $result
                     ]
