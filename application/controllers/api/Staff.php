@@ -277,9 +277,9 @@ class Staff extends REST_Controller {
             'error'         => false,
             'message'       => 'successful',
             'data'          => [
-                'ExpediteursList'       => json_encode($services),
-                'SallesCourrierList'    => json_encode($departments),
-                'PrioritiesList'        => json_encode($priorities)
+                'ExpediteursList'       => $services,
+                'SallesCourrierList'    => $departments,
+                'PrioritiesList'        => $priorities
 
             ]], 200);
     }
