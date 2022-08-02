@@ -227,14 +227,6 @@ class Staff extends REST_Controller {
                 //     break;
                 // }
             // }
-            $result = $this->search('/api/contacts/', $rClients[0]->userid);
-            if ($result == false){
-                $this->response([
-                    'error'     => true,
-                    'message'   => 'DateEnd is not exist'
-                ]);
-                return;
-            }
 
             if ($existFlag == true){
                 $this->response([
