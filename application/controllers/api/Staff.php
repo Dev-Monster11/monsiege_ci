@@ -182,8 +182,8 @@ class Staff extends REST_Controller {
 
             $existFlag = false;
             $item = $contacts[0];
-            $result = $this->search('/api/contracts/'.$rClients[0]->userid);
-            if ($result == false){
+            $contracts = $this->search('/api/contracts/'.$rClients[0]->userid);
+            if ($contracts == false){
                 $this->response([
                     'error'         => true,
                     'message'       => 'Contract is not exist'], 200);
@@ -195,7 +195,7 @@ class Staff extends REST_Controller {
                         $result['Contact'] = $item->firstname.' '.$item->lastname;
                         $result['Email'] = $item->email;
                         $result['Téléphone'] = $item->phonenumber;
-                        $result['Fin de contrat'] = $result[0]->dateend;
+                        $result['Fin de contrat'] = $contracts[0]->dateend;
                         // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;
@@ -206,7 +206,7 @@ class Staff extends REST_Controller {
                         $result['Contact'] = $item->firstname.' '.$item->lastname;
                         $result['Email'] = $item->email;
                         $result['Téléphone'] = $item->phonenumber;
-                        $result['Fin de contrat'] = $result[0]->dateend;
+                        $result['Fin de contrat'] = $contracts[0]->dateend;
                         // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;                        
