@@ -247,25 +247,8 @@ class Staff extends REST_Controller {
     }
     public function departments_post(){
         $departments = $this->search('/api/departments/0');
-        $services = [
-            '1'     => 'RECOMMANDE',
-            '2'     => 'AUTRE',
-            '3'     => 'PUBLICITE',
-            '4'     => 'HUISSIER',
-            '5'     => 'SPF',
-            '6'     => 'POLICE',
-            '7'     => 'NORMAL',
-            '8'     => 'AUTRE',
-            '9'     => 'BANQUE',
-            '10'    => 'ONSS'];
-        $priorities = [
-            '1'     => 'Low',
-            '2'     => 'Medium',
-            '3'     => 'High',
-            '4'     => 'Colis',
-            '5'     => 'Lettre',
-            '6'     => 'Lettre recommandée',
-            '7'     => 'Palette'];
+        $services = ['RECOMMANDE','AUTRE','PUBLICITE','HUISSIER','SPF','POLICE','NORMAL','AUTRE','BANQUE','ONSS'];
+        $priorities = ['Low','Medium','High','Colis','Lettre','Lettre recommandée','Palette'];
         if ($departments == false){
             $this->response([
                 'error'     => true,
