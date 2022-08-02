@@ -245,7 +245,7 @@ class Staff extends REST_Controller {
         ], 200);
 
     }
-    public function departments_get(){
+    public function departments_post(){
         $departments = $this->search('/api/departments/0');
 
         if ($departments == false){
