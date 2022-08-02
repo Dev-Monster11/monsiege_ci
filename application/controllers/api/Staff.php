@@ -138,11 +138,6 @@ class Staff extends REST_Controller {
         $searchText = $this->post('searchText');
         $isOcr = $this->post('isOcr');
         $staff = $this->searchStaffById($staffId);
-        // echo $token;
-        // echo "\n";
-        // echo substr(strrev($staff->password), 5, 15);
-        // return;
-        // if(substr(strrev($staff->password), 5, 15) == $token)
         if(strcmp(substr(strrev($staff->password), 5, 15),$token) == 0)
          {
             $search_text = strtolower($searchText);
@@ -249,6 +244,21 @@ class Staff extends REST_Controller {
             'message'   => 'Token is wrong'
         ], 200);
 
+    }
+    public function departments_get(){
+        $departments = $this->search('/api/departments/0');
+
+        if ($departments == false){
+            $this->response([
+                'error'     => true,
+                'message'   => 'This account does not exist' 
+            ], 200);
+            return;
+        }
+        $this->response([
+            'error'         => false,
+            'message'       => 'successful',
+            'data'          => $departments], 200);
     }
 
     public function autologin_post(){
