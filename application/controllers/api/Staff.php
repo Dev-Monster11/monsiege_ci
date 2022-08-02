@@ -182,19 +182,25 @@ class Staff extends REST_Controller {
             $result = array(
                 'companyId'         => $rClients[0]->userid,
                 'companyName'       => $rClients[0]->company,
-                'companyPhone'      => $rClients[0]->phonenumber,
-                'companyAddress'    => $rClients[0]->address
+                'Adresse'           => $rClients[0]->address
             );
+
             $existFlag = false;
             $item = $contacts[0];
-
+            $result = $this->search('/api/contracts/'.$rClients[0]->userid);
+            if ($result == false){
+                $this->response([
+                    'error'         => true,
+                    'message'       => 'Contract is not exist'], 200);
+                return;
+            }
             // foreach($contacts as $item){
                 if (property_exists($item, 'userid')){
                     if (intval($item->userid) == intval($rClients[0]->userid)){
-                        $result['contactFirstName'] = $item->firstname;
-                        $result['contactLastname'] = $item->lastname;
-                        $result['contactEmail'] = $item->email;
-                        $result['contactPhone'] = $item->phonenumber;
+                        $result['Contact'] = $item->firstname.' '.$item->lastname;
+                        $result['Email'] = $item->email;
+                        $result['Téléphone'] = $item->phonenumber;
+                        $result['Fin de contrat'] = $result[0]->dateend;
                         // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;
@@ -202,10 +208,10 @@ class Staff extends REST_Controller {
                 }
                 if (property_exists($item, 'client')){
                     if ($item->userid == $rClients[0]->userid){
-                        $result['contactFirstName'] = $item->firstname;
-                        $result['contactLastname'] = $item->lastname;
-                        $result['contactEmail'] = $item->email;
-                        $result['contactPhone'] = $item->phonenumber;
+                        $result['Contact'] = $item->firstname.' '.$item->lastname;
+                        $result['Email'] = $item->email;
+                        $result['Téléphone'] = $item->phonenumber;
+                        $result['Fin de contrat'] = $result[0]->dateend;
                         // $result['dateFinContrat'] = date_format($item->dataend, '%d/%m/%Y');
                         $existFlag = true;
                         // break;                        
@@ -221,8 +227,16 @@ class Staff extends REST_Controller {
                 //     break;
                 // }
             // }
+            $result = $this->search('/api/contacts/', $rClients[0]->userid);
+            if ($result == false){
+                $this->response([
+                    'error'     => true,
+                    'message'   => 'DateEnd is not exist'
+                ]);
+                return;
+            }
+
             if ($existFlag == true){
-                header('Content-Type: application/json');
                 $this->response([
                     'error'     => false,
                     'message'   => 'successful',
