@@ -281,7 +281,7 @@ class Staff extends REST_Controller {
                 'SallesCourrierList'    => json_encode($departments),
                 'PrioritiesList'        => json_encode($priorities)
 
-            ], 200);
+            ]], 200);
     }
 
     public function autologin_post(){
